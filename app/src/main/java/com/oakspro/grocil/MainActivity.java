@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 BottomSheetDialog bottomSheetDialog=new BottomSheetDialog(MainActivity.this);
                 bottomSheetDialog.setContentView(R.layout.signup_bottom_sheet);
-                bottomSheetDialog.setCanceledOnTouchOutside(true);
+                bottomSheetDialog.setCanceledOnTouchOutside(false);
                 bottomSheetDialog.show();
 
                 EditText mobileEd, otpEd;
