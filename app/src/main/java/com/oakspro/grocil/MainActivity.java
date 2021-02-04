@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,12 +15,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.*;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     Button signinBtn, signupBtn;
-
+    String randomOTP=null;
+    int otp_flag=0;
+    String api_send_otp="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,14 +103,20 @@ public class MainActivity extends AppCompatActivity {
                         if (nextBtn.getText().equals("Next")){
                             String mobile_s=mobileEd.getText().toString();
                             if (mobile_s.length()==10){
-                                otpEd.setVisibility(View.VISIBLE);
-                                nextBtn.setText("Verify OTP");
+
+                                sendOTP(mobile_s);
+                            //    if (otp_flag==1){
+                                    otpEd.setVisibility(View.VISIBLE);
+                                    nextBtn.setText("Verify OTP");
+                              //  }else {
+                              //      Toast.makeText(MainActivity.this, "Mobile Number is Invalid", Toast.LENGTH_SHORT).show();
+                              //  }
                             }else {
                                 Toast.makeText(MainActivity.this, "Please Enter Valid 10 Digit Mobile", Toast.LENGTH_SHORT).show();
                             }
                         }else if(nextBtn.getText().equals("Verify OTP")){
                             String otp_res=otpEd.getText().toString();
-                            if (!TextUtils.isEmpty(otp_res) && otp_res.length()==6 && otp_res.equals("445566")){
+                            if (!TextUtils.isEmpty(otp_res) && otp_res.length()==6 && otp_res.equals(randomOTP)){
                                 mobileEd.setEnabled(false);
                                 otpEd.setEnabled(false);
                                 linearLayout.setVisibility(View.VISIBLE);
@@ -128,5 +147,50 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void sendOTP(String mobile_s) {
+
+        Random random=new Random();
+        int randNum=random.nextInt(999999);
+        randomOTP=String.format("%6d", randNum);
+
+        Log.i("OTP GEN", randomOTP);
+
+        StringRequest request=new StringRequest(Request.Method.POST, api_send_otp, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String status=jsonObject.getString("status");
+
+                    if (status.equals("1")){
+                        otp_flag=1;
+                    }else {
+                        otp_flag=0;
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    // delete below line after otp_send_otp ready
+                    otp_flag=1;
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Volley Error: "+error.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> otpmap=new HashMap<>();
+                otpmap.put("otp", randomOTP);
+                otpmap.put("mobile", mobile_s);
+                return otpmap;
+            }
+        };
+        RequestQueue requestQueue= Volley.newRequestQueue(this);
+        requestQueue.add(request);
     }
 }
