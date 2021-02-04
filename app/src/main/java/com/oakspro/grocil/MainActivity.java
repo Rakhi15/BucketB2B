@@ -2,6 +2,8 @@ package com.oakspro.grocil;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,14 +36,34 @@ public class MainActivity extends AppCompatActivity {
     String randomOTP=null;
     int otp_flag=0;
     String api_send_otp="";
+    String api_login="";
+    
+   
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // get login details if already logined perviously
+
+        SharedPreferences login = getSharedPreferences("auth", 0);
+        String U_name = login.getString("u_name", "");
+        String U_pass = login.getString("u_pass", "");
+
+        //checking whether login details exist or not
+        //if login details exits it will make auto login
+        if (!U_name.isEmpty() && !U_pass.isEmpty()){
+           Intent intent=new Intent(MainActivity.this, HomeActivity.class);
+           startActivity(intent);
+           finish();
+        }
+
         //set ids
         signupBtn=findViewById(R.id.signup_btn);
         signinBtn=findViewById(R.id.signin_btn);
+
+      
 
         signinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +72,43 @@ public class MainActivity extends AppCompatActivity {
                 bottomSheetDialog.setContentView(R.layout.login_bottom_sheet);
                 bottomSheetDialog.setCanceledOnTouchOutside(false);
                 bottomSheetDialog.show();
+                
+                
+               EditText mobile_no, password;
+               Button Login;
+               
+               mobile_no=bottomSheetDialog.findViewById(R.id.mobile_ed);
+               password=bottomSheetDialog.findViewById(R.id.password_ed);
+               Login=bottomSheetDialog.findViewById(R.id.login_btn);
+               
+               Login.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                       String mob_ed = mobile_no.getText().toString();
+                       String pass_ed= password.getText().toString();
+                       
+                       if (!TextUtils.isEmpty(mob_ed) && !TextUtils.isEmpty(pass_ed)){
+                           if (mob_ed.length()==10) {
+                               loginaction(mob_ed, pass_ed);
+                           }else {
+                               mobile_no.setError("Enter Valid mobile no");
+                           }
+                       }else {
+                           if (TextUtils.isEmpty(mob_ed)) {
+                               mobile_no.setError("Enter Mobile no");
+                           }else {
+                               password.setError("Enter Password");
+                           }
+                       }                     
+                      
+                   }
+               });
+               
+               
+                
+                
+                
+                
             }
         });
 
@@ -147,6 +207,61 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void loginaction(String mob_ed, String pass_ed) {
+        
+        
+        StringRequest login_req = new StringRequest(Request.Method.POST, api_login, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                
+
+                
+                try {
+                    JSONObject jsonObject=new JSONObject(response);
+                    String status = jsonObject.getString("status");
+                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                    
+                    if (status.equals("1")){
+                        for (int i=0; i<jsonArray.length(); i++) {
+                            JSONObject object = jsonArray.getJSONObject(i);
+                            //to get data from server we can write code
+                        }
+
+                        //this to save the username and password and use for auto login
+                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                        SharedPreferences login_details = getSharedPreferences("auth", 0);
+                        SharedPreferences.Editor editor = login_details.edit();
+                        editor.putString("u_name", mob_ed.toString());
+                        editor.putString("u_pass", pass_ed.toString());
+                        editor.commit();
+                        startActivity(intent);
+                        finish();
+
+                    }else {
+                        Toast.makeText(MainActivity.this, "Enter Valid username or password", Toast.LENGTH_SHORT).show();
+                    }
+                    
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, "Check Internet connection", Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return super.getParams();
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(login_req);
+        
     }
 
     private void sendOTP(String mobile_s) {
