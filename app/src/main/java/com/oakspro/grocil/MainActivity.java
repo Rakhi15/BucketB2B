@@ -238,19 +238,42 @@ public class MainActivity extends AppCompatActivity {
     StringRequest request=new StringRequest(Request.Method.POST, api_signup, new Response.Listener<String>() {
         @Override
         public void onResponse(String response) {
+            try {
+                JSONObject jsonObject = new JSONObject(response);
+                String status= jsonObject.getString("jstatus");
+                if(status.equals("1")){
+                    Toast.makeText(MainActivity.this, "Registration successful waiting for activation", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(MainActivity.this, "Failed to register", Toast.LENGTH_SHORT).show();
+                }
+                progressDialog.dismiss();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                progressDialog.dismiss();
+            }
 
         }
     }, new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
-
+            Toast.makeText(MainActivity.this, "Check you Internet Connection", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
         }
     }){
         @Override
         protected Map<String, String> getParams() throws AuthFailureError {
-
+            Map<String, String> upload = new HashMap<>();
+            upload.put("name", name_s);
+            upload.put("mobile", mobile_s);
+            upload.put("email", email_s);
+            upload.put("store_name", store_name_s);
+            upload.put("gstnum", gstnum_s);
+            upload.put("address", address_s);
+            upload.put("password", password_s);
         }
-    }
+    };
+    RequestQueue requestQueue = Volley.newRequestQueue(this);
+    requestQueue.add(request);
 
 
     }
