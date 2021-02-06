@@ -111,11 +111,8 @@ public class MainActivity extends AppCompatActivity {
                       
                    }
                });
-               
-               
-                
-                
-                
+
+
                 
             }
         });
@@ -270,12 +267,11 @@ public class MainActivity extends AppCompatActivity {
             upload.put("gstnum", gstnum_s);
             upload.put("address", address_s);
             upload.put("password", password_s);
+            return upload;
         }
     };
     RequestQueue requestQueue = Volley.newRequestQueue(this);
     requestQueue.add(request);
-
-
     }
 
     private void loginaction(String mob_ed, String pass_ed) {
