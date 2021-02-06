@@ -2,6 +2,7 @@ package com.oakspro.grocil;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -37,14 +38,21 @@ public class MainActivity extends AppCompatActivity {
     int otp_flag=0;
     String api_send_otp="";
     String api_login="";
-    
-   
+    String api_signup="https://grocil.in/grocil_android/api/signup_api.php";
+    EditText nameEd, storeEd, gstEd, emailEd, passwordEd, addressEd;
+    TextView gst_result_test;
+    ProgressDialog progressDialog;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        progressDialog=new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setIndeterminate(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setCanceledOnTouchOutside(false);
         // get login details if already logined perviously
 
         SharedPreferences login = getSharedPreferences("auth", 0);
@@ -128,8 +136,7 @@ public class MainActivity extends AppCompatActivity {
                 nextBtn=bottomSheetDialog.findViewById(R.id.nextbtn);
 
                 LinearLayout linearLayout;
-                EditText nameEd, storeEd, gstEd, emailEd, passwordEd, addressEd;
-                TextView gst_result_test;
+
                 linearLayout=bottomSheetDialog.findViewById(R.id.linear11);
                 nameEd=bottomSheetDialog.findViewById(R.id.name_ed);
                 storeEd=bottomSheetDialog.findViewById(R.id.store_name_ed);
@@ -160,53 +167,92 @@ public class MainActivity extends AppCompatActivity {
                 nextBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (nextBtn.getText().equals("Next")){
-                            String mobile_s=mobileEd.getText().toString();
-                            if (mobile_s.length()==10){
 
-                                sendOTP(mobile_s);
-                            //    if (otp_flag==1){
+
+
+                            if (nextBtn.getText().equals("Next")){
+                                String mobile_s=mobileEd.getText().toString();
+                                if (mobile_s.length()==10){
+
+                                    sendOTP(mobile_s);
+                                    //    if (otp_flag==1){
                                     otpEd.setVisibility(View.VISIBLE);
                                     nextBtn.setText("Verify OTP");
-                              //  }else {
-                              //      Toast.makeText(MainActivity.this, "Mobile Number is Invalid", Toast.LENGTH_SHORT).show();
-                              //  }
-                            }else {
-                                Toast.makeText(MainActivity.this, "Please Enter Valid 10 Digit Mobile", Toast.LENGTH_SHORT).show();
+                                    //  }else {
+                                    //      Toast.makeText(MainActivity.this, "Mobile Number is Invalid", Toast.LENGTH_SHORT).show();
+                                    //  }
+                                }else {
+                                    Toast.makeText(MainActivity.this, "Please Enter Valid 10 Digit Mobile", Toast.LENGTH_SHORT).show();
+                                }
+                            }else if(nextBtn.getText().equals("Verify OTP")){
+                                String otp_res=otpEd.getText().toString();
+                                if (!TextUtils.isEmpty(otp_res) && otp_res.length()==6 && otp_res.equals(randomOTP)){
+                                    mobileEd.setEnabled(false);
+                                    otpEd.setEnabled(false);
+                                    linearLayout.setVisibility(View.VISIBLE);
+                                    nextBtn.setText("Register");
+                                }else {
+                                    Toast.makeText(MainActivity.this, "Please Enter Valid  OTP", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }else if(nextBtn.getText().equals("Verify OTP")){
-                            String otp_res=otpEd.getText().toString();
-                            if (!TextUtils.isEmpty(otp_res) && otp_res.length()==6 && otp_res.equals(randomOTP)){
-                                mobileEd.setEnabled(false);
-                                otpEd.setEnabled(false);
-                                linearLayout.setVisibility(View.VISIBLE);
-                                nextBtn.setText("Register");
-                            }else {
-                                Toast.makeText(MainActivity.this, "Please Enter Valid  OTP", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        else if(nextBtn.getText().equals("Register")){
-                            String gst_res=gstEd.getText().toString();
-                            if (Character.isDigit(gst_res.charAt(0)) && Character.isDigit(gst_res.charAt(1)) && Character.isAlphabetic(gst_res.charAt(2)) && Character.isAlphabetic(gst_res.charAt(3))
-                                && Character.isAlphabetic(gst_res.charAt(4)) && Character.isAlphabetic(gst_res.charAt(5)) && Character.isAlphabetic(gst_res.charAt(6)) && Character.isDigit(gst_res.charAt(7))
-                                && Character.isDigit(gst_res.charAt(8)) && Character.isDigit(gst_res.charAt(9)) && Character.isDigit(gst_res.charAt(10)) && Character.isAlphabetic(gst_res.charAt(11))
-                                && Character.isDigit(gst_res.charAt(12)) && Character.isAlphabetic(gst_res.charAt(13)) && Character.isLetterOrDigit(gst_res.charAt(14))){
+                            else if(nextBtn.getText().equals("Register")){
+                                String gst_res=gstEd.getText().toString();
+                                if (Character.isDigit(gst_res.charAt(0)) && Character.isDigit(gst_res.charAt(1)) && Character.isAlphabetic(gst_res.charAt(2)) && Character.isAlphabetic(gst_res.charAt(3))
+                                        && Character.isAlphabetic(gst_res.charAt(4)) && Character.isAlphabetic(gst_res.charAt(5)) && Character.isAlphabetic(gst_res.charAt(6)) && Character.isDigit(gst_res.charAt(7))
+                                        && Character.isDigit(gst_res.charAt(8)) && Character.isDigit(gst_res.charAt(9)) && Character.isDigit(gst_res.charAt(10)) && Character.isAlphabetic(gst_res.charAt(11))
+                                        && Character.isDigit(gst_res.charAt(12)) && Character.isAlphabetic(gst_res.charAt(13)) && Character.isLetterOrDigit(gst_res.charAt(14))){
 
-                                gstEd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checked_data, 0);
-                                gst_result_test.setText("GST VALID");
-                                gst_result_test.setTextColor(Color.GREEN);
-                            }else{
-                                gstEd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cross_mark, 0);
-                                gst_result_test.setText("INVALID GST");
-                                gst_result_test.setTextColor(Color.RED);
+                                    gstEd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.checked_data, 0);
+                                    gst_result_test.setText("GST VALID");
+                                    gst_result_test.setTextColor(Color.GREEN);
+
+                                    String name_s=nameEd.getText().toString();
+                                    String email_s=emailEd.getText().toString();
+                                    String store_name_s=storeEd.getText().toString();
+                                    String gstnum_s=gstEd.getText().toString();
+                                    String mobile_s=mobileEd.getText().toString();
+                                    String address_s=addressEd.getText().toString();
+                                    String password_s=passwordEd.getText().toString();
+
+                                    uploadDataRegister(name_s, email_s, store_name_s,gstnum_s, mobile_s,address_s,password_s);
+
+                                }else{
+                                    gstEd.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.cross_mark, 0);
+                                    gst_result_test.setText("INVALID GST");
+                                    gst_result_test.setTextColor(Color.RED);
+                                }
                             }
-                        }
+
 
                     }
                 });
 
             }
         });
+    }
+
+    private void uploadDataRegister(String name_s, String email_s, String store_name_s, String gstnum_s, String mobile_s, String address_s, String password_s) {
+
+    progressDialog.show();
+
+    StringRequest request=new StringRequest(Request.Method.POST, api_signup, new Response.Listener<String>() {
+        @Override
+        public void onResponse(String response) {
+
+        }
+    }, new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    }){
+        @Override
+        protected Map<String, String> getParams() throws AuthFailureError {
+
+        }
+    }
+
+
     }
 
     private void loginaction(String mob_ed, String pass_ed) {
