@@ -17,7 +17,7 @@
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:text="hi"
-          android:textColor="@color/black"
+          android:textColor="@color/white"
           android:textSize="25dp"
           android:padding="10dp"
           android:layout_marginLeft="10dp"/>
@@ -25,9 +25,9 @@
           android:id="@+id/prof_name"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:text="Reddy"
+          android:text="ABCD"
           android:textSize="25dp"
-          android:textColor="@color/black"
+          android:textColor="@color/white"
           android:layout_marginLeft="10dp"/>
 
   </LinearLayout>
@@ -43,120 +43,164 @@
           android:layout_marginTop="20dp">
           
           <TableLayout
-              android:padding="10dp"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:layout_margin="10dp">
 
-              <TableRow
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="5dp">
+              <TableRow>
 
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="Name"
                       android:textColor="@color/black"
-                      android:textSize="20dp"/>
+                      android:textSize="20dp"
+                      android:layout_column="1"
+                      android:padding="3dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text=":"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="2"
+                      android:padding="3dp"
+                      />
                   <TextView
                       android:id="@+id/pro_name"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text=": ReddyGona"
+                      android:text="ABCD"
                       android:textColor="@color/black"
                       android:textSize="20dp"
-                      android:layout_marginLeft="20dp"/>
+                      android:layout_column="3"
+                      android:padding="3dp"
+                     />
 
               </TableRow>
 
-              <TableRow
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="5dp">
+              <TableRow>
 
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="Eamil"
                       android:textColor="@color/black"
-                      android:textSize="20dp"/>
+                      android:textSize="20dp"
+                      android:layout_column="1"
+                      android:padding="3dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text=":"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="2"
+                      android:padding="3dp"
+                      />
                   <TextView
                       android:id="@+id/pro_email"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text=": reddygona111@gmail.com"
                       android:textColor="@color/black"
+                      android:text="abcd@gmail.com"
                       android:textSize="20dp"
-                      android:layout_marginLeft="20dp"/>
+                      android:layout_column="3"
+                      android:padding="3dp"/>
 
               </TableRow>
 
-              <TableRow
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="5dp">
+              <TableRow>
 
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="Store Name :"
+                      android:text="Store Name"
                       android:textColor="@color/black"
-                      android:textSize="20dp"/>
+                      android:textSize="20dp"
+                      android:layout_column="1"
+                      android:padding="3dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text=":"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="2"
+                      android:padding="3dp"
+                      />
                   <TextView
                       android:id="@+id/pro_store_name"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text=": SecureDataware"
+                      android:text="SecureDataware"
                       android:textColor="@color/black"
                       android:textSize="20dp"
-                      android:layout_marginLeft="20dp"/>
+                      android:layout_column="3"
+                      android:padding="3dp"/>
 
               </TableRow>
 
-              <TableRow
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="5dp">
+              <TableRow>
 
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="GSTNO"
                       android:textColor="@color/black"
-                      android:textSize="20dp"/>
+                      android:textSize="20dp"
+                      android:layout_column="1"
+                      android:padding="3dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text=":"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="2"
+                      android:padding="3dp"
+                      />
                   <TextView
                       android:id="@+id/pro_gst"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text=": 36AAACC1206D2ZG"
+                      android:text="36AAACC1206D2ZG"
                       android:textColor="@color/black"
                       android:textSize="20dp"
-                      android:layout_marginLeft="20dp"/>
+                      android:layout_column="3"
+                      android:padding="3dp"/>
 
               </TableRow>
 
-              <TableRow
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginTop="5dp">
+              <TableRow>
 
                   <TextView
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:text="Address"
                       android:textColor="@color/black"
-                      android:textSize="20dp"/>
+                      android:textSize="20dp"
+                      android:layout_column="1"
+                      android:padding="3dp"/>
                   <TextView
-                      android:id="@+id/pro_address"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:layout_marginRight="10dp"
-                      android:text=": KITS, Karunya Nagar karunya
-                                      institute of technology and
-                                      sciences coimbature"
+                      android:text=":"
                       android:textColor="@color/black"
                       android:textSize="20dp"
-                      android:layout_marginLeft="20dp"/>
+                      android:layout_column="2"
+                      android:padding="3dp"
+                      />
+                  <TextView
+                      android:id="@+id/pro_address"
+                      android:layout_width="250dp"
+                      android:layout_height="wrap_content"
+                      android:layout_marginEnd="10dp"
+                      android:text="#24-7-211/2, \n Subedari, Hanamkonda, Warnagal 506004"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="3"
+                      android:padding="3dp"/>
 
               </TableRow>
           </TableLayout>

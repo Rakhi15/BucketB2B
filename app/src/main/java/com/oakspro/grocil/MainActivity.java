@@ -37,11 +37,15 @@ public class MainActivity extends AppCompatActivity {
     String randomOTP=null;
     int otp_flag=0;
     String api_send_otp="";
-    String api_login="";
+    String api_login="https://grocil.in/grocil_android/api/signin_api.php";
     String api_signup="https://grocil.in/grocil_android/api/signup_api.php";
     EditText nameEd, storeEd, gstEd, emailEd, passwordEd, addressEd;
     TextView gst_result_test;
     ProgressDialog progressDialog;
+    String name_s, email_s, mobile_s, gstin_s, address_s, store_name_s, status_s;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor myedit;
+
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,17 +59,8 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         // get login details if already logined perviously
 
-        SharedPreferences login = getSharedPreferences("auth", 0);
-        String U_name = login.getString("u_name", "");
-        String U_pass = login.getString("u_pass", "");
-
-        //checking whether login details exist or not
-        //if login details exits it will make auto login
-        if (!U_name.isEmpty() && !U_pass.isEmpty()){
-           Intent intent=new Intent(MainActivity.this, HomeActivity.class);
-           startActivity(intent);
-           finish();
-        }
+        sharedPreferences=getSharedPreferences("MyUser",MODE_PRIVATE);
+        myedit=sharedPreferences.edit();
 
         //set ids
         signupBtn=findViewById(R.id.signup_btn);
@@ -285,27 +280,46 @@ public class MainActivity extends AppCompatActivity {
                 
                 try {
                     JSONObject jsonObject=new JSONObject(response);
-                    String status = jsonObject.getString("status");
-                    JSONArray jsonArray = jsonObject.getJSONArray("login");
+                    String status = jsonObject.getString("lstatus");
+
                     
                     if (status.equals("1")){
+                        JSONArray jsonArray = jsonObject.getJSONArray("details");
                         for (int i=0; i<jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
                             //to get data from server we can write code
+
+                            name_s=object.getString("name");
+                            email_s=object.getString("email");
+                            mobile_s=object.getString("mobile");
+                            gstin_s=object.getString("gstin");
+                            address_s=object.getString("address");
+                            store_name_s=object.getString("store_name");
+                            status_s=object.getString("status");
                         }
 
-                        //this to save the username and password and use for auto login
-                        Intent intent = new Intent(MainActivity.this, HomeActivity.class);
-                        SharedPreferences login_details = getSharedPreferences("auth", 0);
-                        SharedPreferences.Editor editor = login_details.edit();
-                        editor.putString("u_name", mob_ed.toString());
-                        editor.putString("u_pass", pass_ed.toString());
-                        editor.commit();
-                        startActivity(intent);
-                        finish();
+                        if (status_s.equals("0")){
+                            //this to save the username and password and use for auto login
+                            Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            myedit.putString("name", name_s);
+                            myedit.putString("email", email_s);
+                            myedit.putString("mobile", mobile_s);
+                            myedit.putString("gstin", gstin_s);
+                            myedit.putString("address", address_s);
+                            myedit.putString("store_name", store_name_s);
+                            myedit.putString("status", status_s);
+                            myedit.putBoolean("loginS", true);
+                            myedit.commit();
+                            startActivity(intent);
+                            finish();
+                        }
 
-                    }else {
-                        Toast.makeText(MainActivity.this, "Enter Valid username or password", Toast.LENGTH_SHORT).show();
+
+
+                    }else if (status.equals("2")){
+                        Toast.makeText(MainActivity.this, "Enter Valid PASSWORD", Toast.LENGTH_SHORT).show();
+                    }else if (status.equals("3")){
+                        Toast.makeText(MainActivity.this, "Enter Valid MOBILE", Toast.LENGTH_SHORT).show();
                     }
                     
                 } catch (JSONException e) {
@@ -321,7 +335,10 @@ public class MainActivity extends AppCompatActivity {
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                return super.getParams();
+                Map<String, String> upload=new HashMap<>();
+                upload.put("user", mob_ed);
+                upload.put("pass", pass_ed);
+                return upload;
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
