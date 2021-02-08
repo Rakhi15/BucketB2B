@@ -271,20 +271,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void loginaction(String mob_ed, String pass_ed) {
         
-        
+        progressDialog.show();
         StringRequest login_req = new StringRequest(Request.Method.POST, api_login, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                
 
-                
+
                 try {
                     JSONObject jsonObject=new JSONObject(response);
                     String status = jsonObject.getString("lstatus");
-
                     
                     if (status.equals("1")){
                         JSONArray jsonArray = jsonObject.getJSONArray("details");
+                        Toast.makeText(MainActivity.this, "Into if", Toast.LENGTH_SHORT).show();
                         for (int i=0; i<jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
                             //to get data from server we can write code
@@ -297,6 +296,7 @@ public class MainActivity extends AppCompatActivity {
                             store_name_s=object.getString("store_name");
                             status_s=object.getString("status");
                         }
+
 
                         if (status_s.equals("0")){
                             //this to save the username and password and use for auto login
@@ -312,18 +312,25 @@ public class MainActivity extends AppCompatActivity {
                             myedit.commit();
                             startActivity(intent);
                             finish();
+                            progressDialog.dismiss();
                         }
 
 
 
                     }else if (status.equals("2")){
                         Toast.makeText(MainActivity.this, "Enter Valid PASSWORD", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }else if (status.equals("3")){
                         Toast.makeText(MainActivity.this, "Enter Valid MOBILE", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }
                     
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    progressDialog.dismiss();
                 }
 
             }
@@ -331,6 +338,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(MainActivity.this, "Check Internet connection", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         }){
             @Override
