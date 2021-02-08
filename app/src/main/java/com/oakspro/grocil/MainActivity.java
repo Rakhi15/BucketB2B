@@ -35,8 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button signinBtn, signupBtn;
     String randomOTP=null;
-    int otp_flag=0;
-    String api_send_otp="";
+    String api_send_otp="https://grocil.in/grocil_android/api/send_otp_sms.php";
     String api_login="https://grocil.in/grocil_android/api/signin_api.php";
     String api_signup="https://grocil.in/grocil_android/api/signup_api.php";
     EditText nameEd, storeEd, gstEd, emailEd, passwordEd, addressEd;
@@ -45,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     String name_s, email_s, mobile_s, gstin_s, address_s, store_name_s, status_s;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myedit;
+    EditText mobileEd, otpEd;
+    Button nextBtn;
 
     
     @Override
@@ -120,8 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 bottomSheetDialog.setCanceledOnTouchOutside(false);
                 bottomSheetDialog.show();
 
-                EditText mobileEd, otpEd;
-                Button nextBtn;
+
 
                 mobileEd=bottomSheetDialog.findViewById(R.id.mobile_ed);
                 otpEd=bottomSheetDialog.findViewById(R.id.otp_ed);
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 storeEd=bottomSheetDialog.findViewById(R.id.store_name_ed);
                 gstEd=bottomSheetDialog.findViewById(R.id.gst_ed);
                 emailEd=bottomSheetDialog.findViewById(R.id.email_ed);
-                passwordEd=bottomSheetDialog.findViewById(R.id.password_ed);
+                passwordEd=bottomSheetDialog.findViewById(R.id.set_password_ed);
                 addressEd=bottomSheetDialog.findViewById(R.id.address_ed);
                 gst_result_test=bottomSheetDialog.findViewById(R.id.text_result_gst);
 
@@ -167,12 +167,9 @@ public class MainActivity extends AppCompatActivity {
                                 if (mobile_s.length()==10){
 
                                     sendOTP(mobile_s);
-                                    //    if (otp_flag==1){
-                                    otpEd.setVisibility(View.VISIBLE);
+
                                     nextBtn.setText("Verify OTP");
-                                    //  }else {
-                                    //      Toast.makeText(MainActivity.this, "Mobile Number is Invalid", Toast.LENGTH_SHORT).show();
-                                    //  }
+
                                 }else {
                                     Toast.makeText(MainActivity.this, "Please Enter Valid 10 Digit Mobile", Toast.LENGTH_SHORT).show();
                                 }
@@ -235,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
                 String status= jsonObject.getString("jstatus");
                 if(status.equals("1")){
                     Toast.makeText(MainActivity.this, "Registration successful waiting for activation", Toast.LENGTH_SHORT).show();
+
+
                 }else {
                     Toast.makeText(MainActivity.this, "Failed to register", Toast.LENGTH_SHORT).show();
                 }
@@ -356,9 +355,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void sendOTP(String mobile_s) {
 
+        progressDialog.show();
         Random random=new Random();
         int randNum=random.nextInt(999999);
         randomOTP=String.format("%6d", randNum);
+        String message_temp="Dear Store Owner, \nYour OTP is "+randomOTP+" for Grocil Store registration. \n Thank you \n Grocil (Taxbees)";
 
         Log.i("OTP GEN", randomOTP);
 
@@ -367,18 +368,22 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject=new JSONObject(response);
-                    String status=jsonObject.getString("status");
 
-                    if (status.equals("1")){
-                        otp_flag=1;
+                    if (jsonObject.has("SENT")){
+
+                        otpEd.setVisibility(View.VISIBLE);
+                        progressDialog.dismiss();
+                        Toast.makeText(MainActivity.this, "OTP sent to your mobile", Toast.LENGTH_SHORT).show();
                     }else {
-                        otp_flag=0;
+
+                        otpEd.setVisibility(View.INVISIBLE);
+                        progressDialog.dismiss();
                     }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
                     // delete below line after otp_send_otp ready
-                    otp_flag=1;
+                  //  otp_flag=1;
                 }
             }
         }, new Response.ErrorListener() {
@@ -390,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> otpmap=new HashMap<>();
-                otpmap.put("otp", randomOTP);
+                otpmap.put("message", message_temp);
                 otpmap.put("mobile", mobile_s);
                 return otpmap;
             }
