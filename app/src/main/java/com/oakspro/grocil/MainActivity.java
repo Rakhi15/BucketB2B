@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (mobile_s.length()==10){
 
                                     sendOTP(mobile_s);
-
+                                    //new code 08-02-2021 9:35pm
                                     nextBtn.setText("Verify OTP");
 
                                 }else {
