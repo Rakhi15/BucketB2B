@@ -30,7 +30,6 @@ public class DashboardActivity extends AppCompatActivity {
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
 

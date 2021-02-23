@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
     EditText mobileEd, otpEd;
     Button nextBtn;
 
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,11 +164,8 @@ public class MainActivity extends AppCompatActivity {
                             if (nextBtn.getText().equals("Next")){
                                 String mobile_s=mobileEd.getText().toString();
                                 if (mobile_s.length()==10){
-
                                     sendOTP(mobile_s);
-                                    //new code 08-02-2021 9:35pm
                                     nextBtn.setText("Verify OTP");
-
                                 }else {
                                     Toast.makeText(MainActivity.this, "Please Enter Valid 10 Digit Mobile", Toast.LENGTH_SHORT).show();
                                 }
@@ -382,8 +378,6 @@ public class MainActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    // delete below line after otp_send_otp ready
-                  //  otp_flag=1;
                 }
             }
         }, new Response.ErrorListener() {

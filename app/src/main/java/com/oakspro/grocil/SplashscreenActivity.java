@@ -64,6 +64,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                 if (loginV==true && status.equals("0")){
                     Intent intent=new Intent(SplashscreenActivity.this, HomeActivity.class);
                     startActivity(intent);
+                    finish();
                 }else if (loginV==true && status.equals("1")){
                        //create intent for dashbord activity
                     Intent intent=new Intent(SplashscreenActivity.this, DashboardActivity.class);
@@ -72,6 +73,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                 }else {
                     Intent intent=new Intent(SplashscreenActivity.this, MainActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         }, SPLASH);
