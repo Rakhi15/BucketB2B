@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/recyclerViewCat"
-                tools:listitem="@layout/cat_items"
+                tools:listitem="@layout/category_layout"
                 android:visibility="gone"
                 />
 
