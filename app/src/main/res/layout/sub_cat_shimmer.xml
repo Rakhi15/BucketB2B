@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        app:cardCornerRadius="12dp"
+        app:cardMaxElevation="7dp"
+        app:cardElevation="5dp"
+        android:outlineSpotShadowColor="@color/mytheme">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="7dp"
+            android:id="@+id/lay_1">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cat_item_title"
+                android:background="#E7E7E7"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginTop="5dp"/>
+            <TextView
+                android:layout_below="@id/cat_item_title"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cat_item_rate"
+                android:layout_marginTop="5dp"
+                android:background="#E7E7E7"
+                android:textColor="@color/mytheme"
+                android:textSize="18dp"/>
+            <TextView
+                android:layout_below="@id/cat_item_rate"
+                android:layout_width="100dp"
+                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/cat_item_quant"
+                android:background="#E7E7E7"
+                android:textSize="13dp"/>
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:background="#E7E7E7"
+                android:layout_marginBottom="5dp"
+                android:padding="10dp"
+                android:scaleType="fitXY"
+                />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</LinearLayout>

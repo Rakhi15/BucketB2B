@@ -52,6 +52,7 @@
                  android:textSize="13dp"/>
 
              <ImageView
+                 android:id="@+id/cat_item_image"
                  android:layout_width="150dp"
                  android:layout_height="match_parent"
                  android:layout_marginRight="10dp"

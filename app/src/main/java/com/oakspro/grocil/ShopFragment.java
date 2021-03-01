@@ -43,6 +43,8 @@ public class ShopFragment extends Fragment {
     CategoryAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -135,7 +137,7 @@ public class ShopFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> catData=new HashMap<>();
-                catData.put("data", "category");
+                catData.put("data", "subcategory");
                 return catData;
             }
         };

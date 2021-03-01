@@ -19,29 +19,29 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
+public class SubCatAdapter extends RecyclerView.Adapter<SubCatAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<MainDataCat> dataArrayList;
+    ArrayList<MainDataSubCat> dataArrayList;
 
-    public CategoryAdapter(Context context, ArrayList<MainDataCat> dataArrayList){
+
+
+    public SubCatAdapter(Context context, ArrayList<MainDataSubCat> dataArrayList) {
         this.context=context;
         this.dataArrayList=dataArrayList;
     }
 
 
-
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.category_layout, parent, false);
-        return new ViewHolder(view);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.cat_items, parent, false);
+        return new SubCatAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MainDataCat data=dataArrayList.get(position);
+        MainDataSubCat data=dataArrayList.get(position);
 
         Shimmer shimmer=new Shimmer.ColorHighlightBuilder()
                 .setBaseColor(Color.parseColor("#F3F3F3"))
@@ -54,19 +54,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         ShimmerDrawable shimmerDrawable=new ShimmerDrawable();
         shimmerDrawable.setShimmer(shimmer);
 
-        holder.catName.setText(data.getCategoryName());
-        String cat_img_address="https://grocil.in/grocil_android/api/category_pics/"+data.getCategoryImg();
-        Picasso.get().load(cat_img_address).into(holder.catImg);
+        holder.pro_name.setText(data.getProductName());
+        holder.pro_price.setText(data.getProductPrice());
+        holder.pro_units.setText(data.getProductUnit());
+
+        String cat_img_address="https://grocil.in/grocil_android/api/sub_category_pics/"+data.getProductImage();
+        Picasso.get().load(cat_img_address).into(holder.pro_image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AppCompatActivity appCompatActivity=(AppCompatActivity)v.getContext();
-                Fragment myfragment=new ProductsFragment();
-                appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myfragment).addToBackStack(null).commit();
+
             }
         });
-
     }
 
     @Override
@@ -74,16 +74,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         return dataArrayList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView catName;
-        ImageView catImg;
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        TextView pro_name, pro_price, pro_units;
+        ImageView pro_image;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            catName=itemView.findViewById(R.id.cat_name);
-            catImg=itemView.findViewById(R.id.cat_img);
+            pro_image=itemView.findViewById(R.id.cat_item_image);
+            pro_price=itemView.findViewById(R.id.cat_item_rate);
+            pro_units=itemView.findViewById(R.id.cat_item_quant);
+            pro_name=itemView.findViewById(R.id.cat_item_title);
         }
     }
-
-
 }
