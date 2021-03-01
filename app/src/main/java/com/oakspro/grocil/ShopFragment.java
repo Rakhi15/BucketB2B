@@ -7,7 +7,10 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +38,10 @@ public class ShopFragment extends Fragment {
     RecyclerView recyclerView;
     NestedScrollView newNest;
     ShimmerFrameLayout shimmerFrameLayoutCat;
-    String api_cat_list="";
+    String api_cat_list="https://grocil.in/grocil_android/api/category_api.php";
     ArrayList<MainDataCat> dataArrayList=new ArrayList<>();
     CategoryAdapter adapter;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +51,7 @@ public class ShopFragment extends Fragment {
 
         recyclerView=root.findViewById(R.id.recyclerViewCat);
         newNest=root.findViewById(R.id.new_nest);
+        swipeRefreshLayout=root.findViewById(R.id.swipe_refresh);
         shimmerFrameLayoutCat=root.findViewById(R.id.shimmerLayout_cat);
         shimmerFrameLayoutCat.startShimmer();
 
@@ -64,6 +69,16 @@ public class ShopFragment extends Fragment {
             }
         });
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                dataArrayList.clear();
+                getCategoryList();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
         return root;
     }
 
@@ -72,37 +87,42 @@ public class ShopFragment extends Fragment {
             @Override
             public void onResponse(String response) {
 
-                if (response!=null){
-
+                //Log.i("RESPONSE: ", response);
+                if (!TextUtils.isEmpty(response)){
 
                     try {
                         JSONObject jsonObject=new JSONObject(response);
-                        String status=jsonObject.getString("CatStatus");
-                        JSONArray jsonArray=jsonObject.getJSONArray("catDetails");
+                        String status=jsonObject.getString("status");
+                        JSONArray jsonArray=jsonObject.getJSONArray("details");
 
                         if (status.equals("1")){
 
-                            for (int i=0; i<=jsonArray.length(); i++){
+                            for (int i=0; i<jsonArray.length(); i++){
                                 JSONObject object=jsonArray.getJSONObject(i);
 
+                               // Log.i("test: ", String.valueOf(i));
                                 MainDataCat data=new MainDataCat();
-                                data.setCategoryId(object.getString("cat_id"));
+
                                 data.setCategoryName(object.getString("cat_name"));
                                 data.setCategoryImg(object.getString("cat_img"));
+                                data.setCategoryId(object.getString("cat_sl"));
                                 data.setCategoryStatus(object.getString("cat_status"));
 
                                 dataArrayList.add(data);
                             }
                             adapter=new CategoryAdapter(getContext(), dataArrayList);
-                            recyclerView.setVisibility(View.VISIBLE);
                             shimmerFrameLayoutCat.stopShimmer();
                             shimmerFrameLayoutCat.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
                             recyclerView.setAdapter(adapter);
+                        }else{
+                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                         }
 
 
                     } catch (JSONException e) {
                         e.printStackTrace();
+                        Toast.makeText(getContext(), "JEx: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -115,7 +135,7 @@ public class ShopFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> catData=new HashMap<>();
-                catData.put("data", "catList");
+                catData.put("data", "category");
                 return catData;
             }
         };

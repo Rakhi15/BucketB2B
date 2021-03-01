@@ -9,6 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.Shimmer;
@@ -19,14 +22,14 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>{
 
     Context context;
-    ArrayList<MainDataCat> dataCats;
+    ArrayList<MainDataCat> dataArrayList;
 
-    public CategoryAdapter(Context context, ArrayList<MainDataCat> dataCats){
+    public CategoryAdapter(Context context, ArrayList<MainDataCat> dataArrayList){
         this.context=context;
-        this.dataCats=dataCats;
+        this.dataArrayList=dataArrayList;
     }
 
 
@@ -39,7 +42,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        MainDataCat data=dataCats.get(position);
+        MainDataCat data=dataArrayList.get(position);
 
         Shimmer shimmer=new Shimmer.ColorHighlightBuilder()
                 .setBaseColor(Color.parseColor("#F3F3F3"))
@@ -53,14 +56,23 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         shimmerDrawable.setShimmer(shimmer);
 
         holder.catName.setText(data.getCategoryName());
-        String cat_img_address="https://grocil.in/android_api/category_img"+data.getCategoryImg();
+        String cat_img_address="https://grocil.in/grocil_android/api/category_pics/"+data.getCategoryImg();
         Picasso.get().load(cat_img_address).into(holder.catImg);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AppCompatActivity appCompatActivity=(AppCompatActivity)v.getContext();
+                Fragment myfragment=new ProductsFragment();
+                appCompatActivity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, myfragment).addToBackStack(null).commit();
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return dataCats.size();
+        return dataArrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -72,6 +84,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             catName=itemView.findViewById(R.id.cat_name);
             catImg=itemView.findViewById(R.id.cat_img);
         }
+    }
+    public class tasks extends ShopFragment{
+
     }
 
 }

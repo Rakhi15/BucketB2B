@@ -277,8 +277,8 @@ public class MainActivity extends AppCompatActivity {
                     String status = jsonObject.getString("lstatus");
                     
                     if (status.equals("1")){
-                        JSONArray jsonArray = jsonObject.getJSONArray("details");
-                        Toast.makeText(MainActivity.this, "Into if", Toast.LENGTH_SHORT).show();
+                        JSONArray jsonArray=jsonObject.getJSONArray("details");
+                       // Toast.makeText(MainActivity.this, "Into if", Toast.LENGTH_SHORT).show();
                         for (int i=0; i<jsonArray.length(); i++) {
                             JSONObject object = jsonArray.getJSONObject(i);
                             //to get data from server we can write code
@@ -296,6 +296,20 @@ public class MainActivity extends AppCompatActivity {
                         if (status_s.equals("0")){
                             //this to save the username and password and use for auto login
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            myedit.putString("name", name_s);
+                            myedit.putString("email", email_s);
+                            myedit.putString("mobile", mobile_s);
+                            myedit.putString("gstin", gstin_s);
+                            myedit.putString("address", address_s);
+                            myedit.putString("store_name", store_name_s);
+                            myedit.putString("status", status_s);
+                            myedit.putBoolean("loginS", true);
+                            myedit.commit();
+                            startActivity(intent);
+                            finish();
+                            progressDialog.dismiss();
+                        }else if (status_s.equals("1")){
+                            Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
                             myedit.putString("name", name_s);
                             myedit.putString("email", email_s);
                             myedit.putString("mobile", mobile_s);
