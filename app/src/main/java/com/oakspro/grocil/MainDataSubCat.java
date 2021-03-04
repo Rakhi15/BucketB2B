@@ -1,7 +1,30 @@
 package com.oakspro.grocil;
 
 public class MainDataSubCat {
-    String productID, productName, productPrice, productUnit, productImage;
+    String productID;
+    String productName;
+    String productPrice;
+    String productUnit;
+    String productImage;
+
+    public String getProduct_status() {
+        return product_status;
+    }
+
+    public void setProduct_status(String product_status) {
+        this.product_status = product_status;
+    }
+
+    public String getCat_id() {
+        return cat_id;
+    }
+
+    public void setCat_id(String cat_id) {
+        this.cat_id = cat_id;
+    }
+
+    String product_status;
+    String cat_id;
 
     public String getProductID() {
         return productID;
