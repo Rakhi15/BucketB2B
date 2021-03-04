@@ -58,8 +58,8 @@ public class SubCatAdapter extends RecyclerView.Adapter<SubCatAdapter.ViewHolder
         holder.pro_price.setText(data.getProductPrice());
         holder.pro_units.setText(data.getProductUnit());
 
-        String cat_img_address="https://grocil.in/grocil_android/api/sub_category_pics/"+data.getProductImage();
-        Picasso.get().load(cat_img_address).into(holder.pro_image);
+        String pro_img_address="https://grocil.in/grocil_android/api/sub_category_pics/"+data.getProductImage();
+        Picasso.get().load(pro_img_address).into(holder.pro_image);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

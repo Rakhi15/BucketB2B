@@ -41,7 +41,7 @@ public class ProductsFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
     NestedScrollView newNest;
-    String api_prod_list="";
+    String api_prod_list="https://grocil.in/grocil_android/api/products_list_api.php";
 
 
     Button backHome;
@@ -146,7 +146,7 @@ public class ProductsFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> catData=new HashMap<>();
-                catData.put("data", "subcategory");
+                catData.put("data", "category");
                 return catData;
             }
         };

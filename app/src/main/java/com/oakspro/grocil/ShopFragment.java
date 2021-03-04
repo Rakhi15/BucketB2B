@@ -137,7 +137,7 @@ public class ShopFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> catData=new HashMap<>();
-                catData.put("data", "subcategory");
+                catData.put("data", "category");
                 return catData;
             }
         };
