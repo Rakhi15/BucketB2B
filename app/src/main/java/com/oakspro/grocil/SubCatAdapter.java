@@ -58,10 +58,10 @@ public class SubCatAdapter extends RecyclerView.Adapter<SubCatAdapter.ViewHolder
         shimmerDrawable.setShimmer(shimmer);
 
         holder.pro_name.setText(data.getProductName());
-        holder.pro_price.setText(data.getProductPrice());
-        holder.pro_units.setText(data.getProductUnit());
+        holder.pro_price.setText("Price: ₹"+data.getProductPrice());
+        holder.pro_units.setText("1 Pack Units: "+data.getProductUnit());
 
-        String pro_img_address="https://grocil.in/grocil_android/api/sub_category_pics/"+data.getProductImage();
+        String pro_img_address="https://grocil.in/grocil_android/api/product_pics/"+data.getProductImage();
         Picasso.get().load(pro_img_address).into(holder.pro_image);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +85,7 @@ public class SubCatAdapter extends RecyclerView.Adapter<SubCatAdapter.ViewHolder
 
                 Picasso.get().load(pro_img_address).into(pimage);
                 pname.setText(data.getProductName());
-                pprice.setText("Price: "+data.getProductPrice());
+                pprice.setText("Price: ₹"+data.getProductPrice());
                 punit.setText("1 Pack Units: "+data.getProductUnit());
                 pnote.setText("Note: ");
                 pmisc.setText("Misc: ");
