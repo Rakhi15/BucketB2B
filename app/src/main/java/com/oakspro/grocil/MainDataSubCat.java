@@ -6,25 +6,10 @@ public class MainDataSubCat {
     String productPrice;
     String productUnit;
     String productImage;
-
-    public String getProduct_status() {
-        return product_status;
-    }
-
-    public void setProduct_status(String product_status) {
-        this.product_status = product_status;
-    }
-
-    public String getCat_id() {
-        return cat_id;
-    }
-
-    public void setCat_id(String cat_id) {
-        this.cat_id = cat_id;
-    }
-
-    String product_status;
-    String cat_id;
+    String productCid;
+    String productStatus;
+    String productMisc;
+    String productNote;
 
     public String getProductID() {
         return productID;
@@ -66,7 +51,35 @@ public class MainDataSubCat {
         this.productImage = productImage;
     }
 
+    public String getProductCid() {
+        return productCid;
+    }
 
+    public void setProductCid(String productCid) {
+        this.productCid = productCid;
+    }
 
+    public String getProductStatus() {
+        return productStatus;
+    }
 
+    public void setProductStatus(String productStatus) {
+        this.productStatus = productStatus;
+    }
+
+    public String getProductMisc() {
+        return productMisc;
+    }
+
+    public void setProductMisc(String productMisc) {
+        this.productMisc = productMisc;
+    }
+
+    public String getProductNote() {
+        return productNote;
+    }
+
+    public void setProductNote(String productNote) {
+        this.productNote = productNote;
+    }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ public class ProductsFragment extends Fragment {
     RecyclerView recyclerView;
     NestedScrollView newNest;
     String api_prod_list="https://grocil.in/grocil_android/api/products_list_api.php";
+    String categoryid;
 
 
     Button backHome;
@@ -55,6 +57,8 @@ public class ProductsFragment extends Fragment {
         swipeRefreshLayout=root.findViewById(R.id.swipe_refresh);
         recyclerView=root.findViewById(R.id.recyclerViewPro);
         shimmerFrameLayoutSubCat=root.findViewById(R.id.shimmerLayout_subcat);
+        Bundle bundle=this.getArguments();
+        categoryid=bundle.getString("category");
 
 
         getproductlist();
@@ -116,11 +120,14 @@ public class ProductsFragment extends Fragment {
                                 data.setProductPrice(object.getString("price"));
                                 data.setProductUnit(object.getString("units"));
                                 data.setProductID(object.getString("pid"));
-                                data.setCat_id(object.getString("category_id"));
-                                data.setProduct_status(object.getString("status"));
+                                data.setProductCid(object.getString("cid"));
+                                data.setProductStatus(object.getString("pstatus"));
+                                data.setProductMisc(object.getString("pmisc"));
+                                data.setProductNote(object.getString("pnote"));
 
                                 dataArrayList.add(data);
                             }
+                            Log.i("CAT: ", categoryid);
                             adapter=new SubCatAdapter(getContext(), dataArrayList);
                             shimmerFrameLayoutSubCat.stopShimmer();
                             shimmerFrameLayoutSubCat.setVisibility(View.GONE);
@@ -146,7 +153,7 @@ public class ProductsFragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> catData=new HashMap<>();
-                catData.put("data", "category");
+                catData.put("category", categoryid);
                 return catData;
             }
         };

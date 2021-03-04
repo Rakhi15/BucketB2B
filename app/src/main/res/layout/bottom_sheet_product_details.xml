@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/bottom_sheet_bg">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="Product Details"
+            android:layout_marginTop="10dp"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp">
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="220dp"
+                android:id="@+id/product_img"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/product_img"
+                android:id="@+id/product_name"
+                android:text="Product Name"
+                android:textColor="@color/black"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Price: "
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@id/product_img"
+                android:layout_below="@id/product_name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/product_price"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1 Pack Units : "
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_toRightOf="@id/product_img"
+                android:layout_below="@id/product_price"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/product_unit"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Note : "
+                android:textSize="18dp"
+                android:textColor="@android:color/holo_red_dark"
+                android:layout_toRightOf="@id/product_img"
+                android:layout_below="@id/product_unit"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/product_note"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Misc : "
+                android:textSize="18dp"
+                android:textColor="@color/mytheme"
+                android:layout_toRightOf="@id/product_img"
+                android:layout_below="@id/product_note"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/product_misc"
+                />
+
+        </RelativeLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_theme_bg"
+            android:layout_margin="20dp"
+            android:text="Add to Cart"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:id="@+id/addtocart_btn"
+            />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
