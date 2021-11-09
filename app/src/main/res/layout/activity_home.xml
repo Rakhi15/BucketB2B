@@ -171,6 +171,36 @@
                       android:padding="3dp"/>
 
               </TableRow>
+              <TableRow>
+
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Store ID"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="1"
+                      android:padding="3dp"/>
+                  <TextView
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text=":"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="2"
+                      android:padding="3dp"
+                      />
+                  <TextView
+                      android:id="@+id/pro_store_id"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="GS205001"
+                      android:textColor="@color/black"
+                      android:textSize="20dp"
+                      android:layout_column="3"
+                      android:padding="3dp"/>
+
+              </TableRow>
 
               <TableRow>
 

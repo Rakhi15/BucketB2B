@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -56,6 +57,7 @@ public class DashboardActivity extends AppCompatActivity {
     };
 
     public void openCartAct(View view) {
-
+        Intent intent=new Intent(DashboardActivity.this, CartActivity.class);
+        startActivity(intent);
     }
 }

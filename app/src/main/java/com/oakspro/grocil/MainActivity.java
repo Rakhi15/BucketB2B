@@ -41,11 +41,12 @@ public class MainActivity extends AppCompatActivity {
     EditText nameEd, storeEd, gstEd, emailEd, passwordEd, addressEd;
     TextView gst_result_test;
     ProgressDialog progressDialog;
-    String name_s, email_s, mobile_s, gstin_s, address_s, store_name_s, status_s;
+    String name_s, email_s, mobile_s, gstin_s, address_s, store_name_s, status_s, userid_s, role;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor myedit;
     EditText mobileEd, otpEd;
     Button nextBtn;
+    TextView cancelTx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,14 @@ public class MainActivity extends AppCompatActivity {
                 mobileEd=bottomSheetDialog.findViewById(R.id.mobile_ed);
                 otpEd=bottomSheetDialog.findViewById(R.id.otp_ed);
                 nextBtn=bottomSheetDialog.findViewById(R.id.nextbtn);
+                cancelTx=bottomSheetDialog.findViewById(R.id.cancel_txt);
+
+                cancelTx.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        bottomSheetDialog.dismiss();
+                    }
+                });
 
                 LinearLayout linearLayout;
 
@@ -227,6 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject jsonObject = new JSONObject(response);
                 String status= jsonObject.getString("jstatus");
                 if(status.equals("1")){
+
                     Toast.makeText(MainActivity.this, "Registration successful waiting for activation", Toast.LENGTH_SHORT).show();
 
 
@@ -284,18 +294,22 @@ public class MainActivity extends AppCompatActivity {
                             //to get data from server we can write code
 
                             name_s=object.getString("name");
+                            role=object.getString("role");
                             email_s=object.getString("email");
                             mobile_s=object.getString("mobile");
                             gstin_s=object.getString("gstin");
                             address_s=object.getString("address");
                             store_name_s=object.getString("store_name");
                             status_s=object.getString("status");
+                            userid_s=object.getString("userid");
                         }
 
 
-                        if (status_s.equals("0")){
+                        if (status_s.equals("0") && role.equals("0")){
                             //this to save the username and password and use for auto login
                             Intent intent = new Intent(MainActivity.this, HomeActivity.class);
+                            myedit.putString("userid", userid_s);
+                            myedit.putString("role", role);
                             myedit.putString("name", name_s);
                             myedit.putString("email", email_s);
                             myedit.putString("mobile", mobile_s);
@@ -308,9 +322,27 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                             progressDialog.dismiss();
-                        }else if (status_s.equals("1")){
+                        }else if (status_s.equals("1") && role.equals("0")){
                             Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
+                            myedit.putString("userid", userid_s);
                             myedit.putString("name", name_s);
+                            myedit.putString("role", role);
+                            myedit.putString("email", email_s);
+                            myedit.putString("mobile", mobile_s);
+                            myedit.putString("gstin", gstin_s);
+                            myedit.putString("address", address_s);
+                            myedit.putString("store_name", store_name_s);
+                            myedit.putString("status", status_s);
+                            myedit.putBoolean("loginS", true);
+                            myedit.commit();
+                            startActivity(intent);
+                            finish();
+                            progressDialog.dismiss();
+                        }else if (status_s.equals("1") && role.equals("1")){
+                            Intent intent = new Intent(MainActivity.this, AdminMainActivity.class);
+                            myedit.putString("userid", userid_s);
+                            myedit.putString("name", name_s);
+                            myedit.putString("role", role);
                             myedit.putString("email", email_s);
                             myedit.putString("mobile", mobile_s);
                             myedit.putString("gstin", gstin_s);
@@ -372,7 +404,6 @@ public class MainActivity extends AppCompatActivity {
         String message_temp="Dear Store Owner, \nYour OTP is "+randomOTP+" for Grocil Store registration. \n Thank you \n Grocil (Taxbees)";
 
         Log.i("OTP GEN", randomOTP);
-
         StringRequest request=new StringRequest(Request.Method.POST, api_send_otp, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

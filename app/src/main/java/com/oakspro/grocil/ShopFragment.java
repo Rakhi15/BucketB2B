@@ -1,6 +1,7 @@
 package com.oakspro.grocil;
 
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.core.widget.NestedScrollView;
@@ -24,6 +25,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +47,8 @@ public class ShopFragment extends Fragment {
     CategoryAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
 
+    ArrayList<SliderItem> adsArray=new ArrayList<>();
+    SliderView adSlider;
 
 
     @Override
@@ -58,9 +64,10 @@ public class ShopFragment extends Fragment {
         shimmerFrameLayoutCat.startShimmer();
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        adSlider=root.findViewById(R.id.ads_slider);
 
         getCategoryList();
-
+/*
         newNest.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -70,6 +77,8 @@ public class ShopFragment extends Fragment {
                 }
             }
         });
+
+ */
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -117,6 +126,36 @@ public class ShopFragment extends Fragment {
                             shimmerFrameLayoutCat.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
                             recyclerView.setAdapter(adapter);
+
+                            //ads
+                            adsArray.clear();
+                            JSONArray jsonArray2=jsonObject.getJSONArray("ads");
+                            for (int i=0; i<jsonArray2.length(); i++){
+                                JSONObject object=jsonArray2.getJSONObject(i);
+
+                                SliderItem sliderItem=new SliderItem();
+                                sliderItem.setAd_id(object.getString("ad_id"));
+                                sliderItem.setAd_img(object.getString("ad_img"));
+                                sliderItem.setAd_link(object.getString("ad_link"));
+
+                                adsArray.add(sliderItem);
+                            }
+                            SliderImgAdapter adapter = new SliderImgAdapter(getContext(), adsArray);
+
+                            adSlider.setSliderAdapter(adapter);
+
+                            adSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using IndicatorAnimationType. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+                            adSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+                            adSlider.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
+                            adSlider.setIndicatorSelectedColor(Color.WHITE);
+                            adSlider.setIndicatorUnselectedColor(Color.GRAY);
+                            adSlider.setScrollTimeInSec(4); //set scroll delay in seconds :
+                            adSlider.startAutoCycle();
+
+                            //end of ads
+
+
+
                         }else{
                             Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                         }

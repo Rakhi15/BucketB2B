@@ -9,8 +9,8 @@ import android.widget.TextView;
 public class HomeActivity extends AppCompatActivity {
 
     SharedPreferences sharedPreferences;
-    private String Name, Email, Mobile, StoreName, Gstno, Address;
-    TextView name_t, email_t, mobile_t, storename_t, gstno_t, address_t, h_name;
+    private String Name, Email, Mobile, StoreName, Gstno, Address, Storeid;
+    TextView name_t, email_t, mobile_t, storename_t, gstno_t, address_t, h_name, storeid_t;
     private boolean Details;
 
     @Override
@@ -27,6 +27,8 @@ public class HomeActivity extends AppCompatActivity {
        Gstno=sharedPreferences.getString("gstin", "");
        Address=sharedPreferences.getString("address", "");
        StoreName=sharedPreferences.getString("store_name", "");
+       Storeid=sharedPreferences.getString("userid", "");
+
 
        name_t=findViewById(R.id.pro_name);
        email_t=findViewById(R.id.pro_email);
@@ -35,6 +37,7 @@ public class HomeActivity extends AppCompatActivity {
        gstno_t=findViewById(R.id.pro_gst);
        address_t=findViewById(R.id.pro_address);
        h_name=findViewById(R.id.prof_name);
+       storeid_t=findViewById(R.id.pro_store_id);
 
        name_t.setText(Name);
        h_name.setText(Name);
@@ -43,6 +46,7 @@ public class HomeActivity extends AppCompatActivity {
        gstno_t.setText(Gstno);
        address_t.setText(Address);
        storename_t.setText(StoreName);
+       storeid_t.setText(Storeid);
 
     }
 }

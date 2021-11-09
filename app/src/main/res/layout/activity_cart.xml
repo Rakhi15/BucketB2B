@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CartActivity">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        android:layout_marginLeft="-3dp"
+        android:layout_marginRight="-3dp"
+        app:cardCornerRadius="26dp"
+        app:cardMaxElevation="7dp"
+        android:elevation="5dp"
+        app:cardBackgroundColor="@color/mytheme"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_baseline_arrow_back_40"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:id="@+id/back_Home"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/amiko_semibold"
+                android:text="Cart"
+                android:textColor="@color/white"
+                android:textSize="22dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/cardView1"
+        android:layout_above="@id/total_value">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/new_nest"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/recyclerViewCart"
+                    tools:listitem="@layout/cat_items"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:visibility="gone"
+                    />
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/shimmerLayout_subcat">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
+
+                            <include
+                                layout="@layout/sub_cat_shimmer"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
+
+                            <include
+                                layout="@layout/sub_cat_shimmer"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
+
+                            <include
+                                layout="@layout/sub_cat_shimmer"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
+                            <include
+                                layout="@layout/sub_cat_shimmer"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
+                            <include
+                                layout="@layout/sub_cat_shimmer"
+                                />
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_horizontal">
+                            <include
+                                layout="@layout/sub_cat_shimmer"
+                                />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/total_value"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total : "
+        android:textColor="@color/black"
+        android:textSize="22dp"
+        android:background="#B1F3B4"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        />
+    <com.ebanx.swipebtn.SwipeButton
+        android:id="@+id/swipe_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="8dp"
+        app:inner_text="PLACE ORDER"
+        app:inner_text_color="@android:color/white"
+        app:inner_text_size="16sp"
+        app:inner_text_top_padding="8dp"
+        app:inner_text_bottom_padding="8dp"
+        app:inner_text_background="@drawable/shape_rounded"
+        app:button_image_height="40dp"
+        app:button_image_width="50dp"
+        app:button_image_disabled="@drawable/ic_baseline_delivery_dining_24"
+        app:button_image_enabled="@drawable/ic_outline_delivery_dining_24"
+        app:button_left_padding="20dp"
+        app:button_right_padding="20dp"
+        app:button_top_padding="20dp"
+        app:button_bottom_padding="20dp"
+        app:button_background="@drawable/shape_button"
+        app:initial_state="disabled"
+        app:has_activate_state="true"
+        />
+
+
+</RelativeLayout>
