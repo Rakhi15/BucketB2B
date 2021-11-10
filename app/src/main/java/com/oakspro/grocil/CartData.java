@@ -1,7 +1,15 @@
 package com.oakspro.grocil;
 
 public class CartData {
-    String prod_title, prod_price, prod_img, cart_id, prod_id, prod_units;
+    String prod_title, prod_price, prod_img, cart_id, prod_id, prod_units, prod_qty;
+
+    public String getProd_qty() {
+        return prod_qty;
+    }
+
+    public void setProd_qty(String prod_qty) {
+        this.prod_qty = prod_qty;
+    }
 
     public String getProd_units() {
         return prod_units;

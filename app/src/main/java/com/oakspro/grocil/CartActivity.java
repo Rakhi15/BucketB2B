@@ -121,6 +121,7 @@ public class CartActivity extends AppCompatActivity {
                                 data.setProd_price(object.getString("prod_price"));
                                 data.setProd_title(object.getString("prod_title"));
                                 data.setProd_units(object.getString("prod_units"));
+                                data.setProd_qty(object.getString("prod_qty"));
 
                                 dataArrayList.add(data);
                             }
