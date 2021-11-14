@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,12 +41,13 @@ public class CartActivity extends AppCompatActivity {
     public static TextView totalTx;
     ArrayList<CartData> dataArrayList=new ArrayList<>();
     CartAdapter adapter;
-    ShimmerFrameLayout shimmerFrameLayoutSubCat;
     SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
-    String api_cart_list="https://grocil.in/grocil_android/api/cart_api.php";
+    String api_cart_list="https://grocil.in/grocil_android/api/cart_list_api.php";
     Button backHome;
     SharedPreferences sharedPreferences;
+    ImageView cartImg;
+    TextView emptyTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +60,11 @@ public class CartActivity extends AppCompatActivity {
 
         backHome=findViewById(R.id.back_Home);
         swipeRefreshLayout=findViewById(R.id.swipe_refresh);
-        recyclerView=findViewById(R.id.recyclerViewPro);
-        shimmerFrameLayoutSubCat=findViewById(R.id.shimmerLayout_subcat);
+        recyclerView=findViewById(R.id.recyclerViewCart);
 
+
+        cartImg=findViewById(R.id.img_empty);
+        emptyTxt=findViewById(R.id.empty_text);
 
 
         LinearLayoutManager layoutManager=new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -95,6 +99,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void getcartlist() {
+        dataArrayList.clear();
         StringRequest request=new StringRequest(Request.Method.POST, api_cart_list, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -105,9 +110,12 @@ public class CartActivity extends AppCompatActivity {
                     try {
                         JSONObject jsonObject=new JSONObject(response);
                         String status=jsonObject.getString("status");
-                        JSONArray jsonArray=jsonObject.getJSONArray("details");
+                        JSONArray jsonArray=jsonObject.getJSONArray("cart");
 
                         if (status.equals("1")){
+
+                            cartImg.setVisibility(View.GONE);
+                            emptyTxt.setVisibility(View.GONE);
 
                             for (int i=0; i<jsonArray.length(); i++){
                                 JSONObject object=jsonArray.getJSONObject(i);
@@ -127,12 +135,12 @@ public class CartActivity extends AppCompatActivity {
                             }
                           //  Log.i("CAT: ", categoryid);
                             adapter=new CartAdapter(CartActivity.this, dataArrayList, totalTx);
-                            shimmerFrameLayoutSubCat.stopShimmer();
-                            shimmerFrameLayoutSubCat.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
                             recyclerView.setAdapter(adapter);
                         }else{
-                            Toast.makeText(CartActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+                            cartImg.setVisibility(View.VISIBLE);
+                            emptyTxt.setVisibility(View.VISIBLE);
+                            Toast.makeText(CartActivity.this, "No Items Found in Cart", Toast.LENGTH_SHORT).show();
                         }
 
 
@@ -152,6 +160,7 @@ public class CartActivity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> catData=new HashMap<>();
                 catData.put("userid", sharedPreferences.getString("userid", ""));
+                catData.put("data", "cart_list");
                 return catData;
             }
         };

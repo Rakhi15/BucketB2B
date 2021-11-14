@@ -1,6 +1,9 @@
 package com.oakspro.grocil;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -15,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -46,6 +51,9 @@ public class ShopFragment extends Fragment {
     ArrayList<MainDataCat> dataArrayList=new ArrayList<>();
     CategoryAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    Button refresh_balance, walletBtn;
+    TextView balance_txt;
+    SharedPreferences sharedPreferences;
 
     ArrayList<SliderItem> adsArray=new ArrayList<>();
     SliderView adSlider;
@@ -56,12 +64,17 @@ public class ShopFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root= inflater.inflate(R.layout.fragment_shop, container, false);
+        sharedPreferences= getContext().getSharedPreferences("MyUser", Context.MODE_PRIVATE);
 
         recyclerView=root.findViewById(R.id.recyclerViewCat);
         newNest=root.findViewById(R.id.new_nest);
         swipeRefreshLayout=root.findViewById(R.id.swipe_refresh);
         shimmerFrameLayoutCat=root.findViewById(R.id.shimmerLayout_cat);
         shimmerFrameLayoutCat.startShimmer();
+        refresh_balance=root.findViewById(R.id.top_up_refresh);
+        walletBtn=root.findViewById(R.id.wallet_btn);
+        balance_txt=root.findViewById(R.id.amount_txt);
+
 
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         adSlider=root.findViewById(R.id.ads_slider);
@@ -78,7 +91,16 @@ public class ShopFragment extends Fragment {
             }
         });
 
+
  */
+        walletBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getContext(), TransActivity.class);
+                intent.putExtra("userid", sharedPreferences.getString("userid", ""));
+                startActivity(intent);
+            }
+        });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

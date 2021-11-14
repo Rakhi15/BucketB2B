@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TransActivity"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-20dp"
+        android:layout_marginLeft="-3dp"
+        android:layout_marginRight="-3dp"
+        app:cardCornerRadius="26dp"
+        app:cardMaxElevation="7dp"
+        android:elevation="5dp"
+        app:cardBackgroundColor="@color/mytheme"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_baseline_arrow_back_40"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"
+                android:focusable="true"
+                android:clickable="true"
+                android:id="@+id/back_Home"
+                android:onClick="back_home"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/amiko_semibold"
+                android:text="Transactions"
+                android:textColor="@color/white"
+                android:textSize="22dp" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listview"
+        android:dividerHeight="2dp"
+        android:divider="#82AE83"
+        />
+
+</LinearLayout>

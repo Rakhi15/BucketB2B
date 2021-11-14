@@ -23,6 +23,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <Button
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="40dp"
+            android:layout_toLeftOf="@id/amount_txt"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/ic_baseline_account_balance_wallet_24"
+            android:id="@+id/wallet_btn"
+            />
+
+
         <TextView
             android:id="@+id/amount_txt"
             android:layout_width="wrap_content"
@@ -34,15 +45,15 @@
             android:text="₹1500.00"
             android:textColor="@color/white"
             android:textSize="22dp" />
+
         <Button
+            android:id="@+id/top_up_refresh"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:id="@+id/top_up_refresh"
             android:layout_marginTop="40dp"
-            android:background="@drawable/ic_baseline_refresh_30"
-            />
+            android:layout_marginRight="20dp"
+            android:background="@drawable/ic_baseline_refresh_30" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
 

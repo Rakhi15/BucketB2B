@@ -52,27 +52,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         CartData data=dataArrayList.get(position);
 
-        Shimmer shimmer=new Shimmer.ColorHighlightBuilder()
-                .setBaseColor(Color.parseColor("#F3F3F3"))
-                .setBaseAlpha(1)
-                .setHighlightColor(Color.parseColor("#E7E7E7"))
-                .setHighlightAlpha(1)
-                .setDropoff(50)
-                .build();
 
-        ShimmerDrawable shimmerDrawable=new ShimmerDrawable();
-        shimmerDrawable.setShimmer(shimmer);
 
         holder.minusBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int qty_n=Integer.parseInt(holder.qnty.getText().toString());
                 qty_n=qty_n-1;
-                holder.qnty.setText(qty_n);
+                holder.qnty.setText(String.valueOf(qty_n));
                 int total_val=Integer.parseInt(holder.qnty.getText().toString())*Integer.parseInt(data.getProd_price().toString());
-                holder.prodTotal.setText(total_val);
+                holder.prodTotal.setText("Rs. "+String.valueOf(total_val));
                 total_price=total_price-Integer.parseInt(data.getProd_price());
-                totalTv.setText("Total : "+total_price);
+                totalTv.setText("Total Rs. : "+String.valueOf(total_price));
             }
         });
         holder.plusBtn.setOnClickListener(new View.OnClickListener() {
@@ -80,11 +71,12 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
             public void onClick(View v) {
                 int qty_n=Integer.parseInt(holder.qnty.getText().toString());
                 qty_n=qty_n+1;
-                holder.qnty.setText(qty_n);
+                holder.qnty.setText(String.valueOf(qty_n));
                 int total_val=Integer.parseInt(holder.qnty.getText().toString())*Integer.parseInt(data.getProd_price().toString());
-                holder.prodTotal.setText(total_val);
+                holder.prodTotal.setText("Rs. "+String.valueOf(total_val));
                 total_price=total_price+Integer.parseInt(data.getProd_price());
-                totalTv.setText("Total : "+total_price);
+                totalTv.setText("Total Rs. : "+String.valueOf(total_price));
+
             }
         });
         holder.deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -99,13 +91,14 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder>{
         holder.prodTitle.setText(data.getProd_title());
         holder.prodUnit.setText(""+data.getProd_units()+" in 1 Unit, Price: Rs. "+data.getProd_price());
         holder.prodTotal.setText("Rs. "+data.getProd_price());
+        holder.qnty.setText(data.getProd_qty());
         calculateTotal(data.getProd_price().toString());
     }
 
     private void calculateTotal(String price) {
         int price_i=Integer.parseInt(price);
         total_price=total_price+price_i;
-        totalTv.setText("Total : "+total_price);
+        totalTv.setText("Total Rs. "+String.valueOf(total_price));
     }
 
     private void removeCart(String prod_id, String userid) {

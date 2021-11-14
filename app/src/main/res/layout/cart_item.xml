@@ -87,6 +87,7 @@
                         android:layout_marginRight="3dp"
                         android:text="18"
                         android:textAlignment="center"
+                        android:enabled="false"
                         />
                     <Button
                         android:layout_width="30dp"

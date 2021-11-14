@@ -13,6 +13,9 @@
         android:theme="@style/Theme.Grocil"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".TransActivity"
+            android:exported="false" />
+        <activity
             android:name=".AdminMainActivity"
             android:exported="false" />
         <activity android:name=".CartActivity" />
