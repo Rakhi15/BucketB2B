@@ -24,14 +24,13 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/wallet_btn"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_marginTop="40dp"
-            android:layout_toLeftOf="@id/amount_txt"
             android:layout_marginRight="10dp"
-            android:background="@drawable/ic_baseline_account_balance_wallet_24"
-            android:id="@+id/wallet_btn"
-            />
+            android:layout_toLeftOf="@id/amount_txt"
+            android:background="@drawable/ic_baseline_account_balance_wallet_24" />
 
 
         <TextView

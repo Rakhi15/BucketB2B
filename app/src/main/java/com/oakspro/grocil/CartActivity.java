@@ -26,6 +26,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.ebanx.swipebtn.OnStateChangeListener;
+import com.ebanx.swipebtn.SwipeButton;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONArray;
@@ -48,6 +50,7 @@ public class CartActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     ImageView cartImg;
     TextView emptyTxt;
+    SwipeButton enableButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class CartActivity extends AppCompatActivity {
         backHome=findViewById(R.id.back_Home);
         swipeRefreshLayout=findViewById(R.id.swipe_refresh);
         recyclerView=findViewById(R.id.recyclerViewCart);
+        enableButton = (SwipeButton) findViewById(R.id.swipe_btn);
 
 
         cartImg=findViewById(R.id.img_empty);
@@ -81,6 +85,7 @@ public class CartActivity extends AppCompatActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+
 
         backHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,7 +139,7 @@ public class CartActivity extends AppCompatActivity {
                                 dataArrayList.add(data);
                             }
                           //  Log.i("CAT: ", categoryid);
-                            adapter=new CartAdapter(CartActivity.this, dataArrayList, totalTx);
+                            adapter=new CartAdapter(CartActivity.this, dataArrayList, totalTx, enableButton);
                             recyclerView.setVisibility(View.VISIBLE);
                             recyclerView.setAdapter(adapter);
                         }else{
